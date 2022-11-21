@@ -6,7 +6,6 @@ This is a temporary script file.
 """
 
 import pandas as pd
-import os
 import pickle
 import streamlit as st
 
