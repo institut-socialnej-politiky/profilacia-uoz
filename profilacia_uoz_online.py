@@ -6,7 +6,6 @@ This is a temporary script file.
 """
 
 import pandas as pd
-import pickle
 import streamlit as st
 
 # nacitam si pomocny subor na kategorizaciu okresov
