@@ -9,6 +9,7 @@ import pandas as pd
 import os
 import pickle
 import streamlit as st
+import lightgbm
 
 # nacitam si pomocny subor na kategorizaciu okresov
 df_okresy = pd.read_csv("okresy.csv")
