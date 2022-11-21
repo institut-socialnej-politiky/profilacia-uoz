@@ -1,0 +1,58 @@
+kod,nazov,skola_odbor_skupina,nazov_kod
+0,Bez odboru vzdelania,ziadny,0 Bez odboru vzdelania
+11,Fyzikálno-matematické vedy,prir_vedy,11 Fyzikálno-matematické vedy
+12,Geologické vedy,prir_vedy,12 Geologické vedy
+13,Geografické vedy,prir_vedy,13 Geografické vedy
+14,Chemické vedy,prir_vedy,14 Chemické vedy
+15,Biologické vedy,prir_vedy,15 Biologické vedy
+16,Ochrana životného prostredia,prir_vedy,16 Ochrana životného prostredia
+21,"Baníctvo, geológia a geotechnika",tech_vedy1,"21 Baníctvo, geológia a geotechnika"
+22,Hutníctvo,tech_vedy1,22 Hutníctvo
+23,Strojárstvo a ostatná kovospracúvacia výroba I,tech_vedy1,23 Strojárstvo a ostatná kovospracúvacia výroba I
+24,Strojárstvo a ostatná kovospracúvacia výroba II,tech_vedy1,24 Strojárstvo a ostatná kovospracúvacia výroba II
+25,Informačné a komunikačné technológie,tech_vedy1,25 Informačné a komunikačné technológie
+26,Elektrotechnika,tech_vedy1,26 Elektrotechnika
+27,Technická chémia silikátov,tech_vedy1,27 Technická chémia silikátov
+28,Technická a aplikovaná chémia,tech_vedy1,28 Technická a aplikovaná chémia
+29,Potravinárstvo,tech_vedy1,29 Potravinárstvo
+31,Textil a odevníctvo,tech_vedy2,31 Textil a odevníctvo
+32,"Spracúvanie kože, kožušín a výroba obuvi",tech_vedy2,"32 Spracúvanie kože, kožušín a výroba obuvi"
+33,Spracúvanie dreva,tech_vedy2,33 Spracúvanie dreva
+34,Polygrafia a médiá,tech_vedy2,34 Polygrafia a médiá
+35,Architektúra,tech_vedy2,35 Architektúra
+36,"Stavebníctvo, geodézia a kartografia",tech_vedy2,"36 Stavebníctvo, geodézia a kartografia"
+37,"Doprava, pošty a telekomunikácie",tech_vedy2,"37 Doprava, pošty a telekomunikácie"
+38,Automatizácia a riadenie,tech_vedy2,38 Automatizácia a riadenie
+39,Špeciálne technické odbory,tech_vedy2,39 Špeciálne technické odbory
+41,Poľnohospodársko-lesnícke vedy,polnohosp,41 Poľnohospodársko-lesnícke vedy
+42,"Poľnohospodárstvo, lesné hospodárstvo a rozvoj vidieka I",polnohosp,"42 Poľnohospodárstvo, lesné hospodárstvo a rozvoj vidieka I"
+43,Veterinárske vedy,polnohosp,43 Veterinárske vedy
+45,"Poľnohospodárstvo, lesné hospodárstvo a rozvoj vidieka II",polnohosp,"45 Poľnohospodárstvo, lesné hospodárstvo a rozvoj vidieka II"
+51,Lekárske vedy,zdravotnictvo,51 Lekárske vedy
+52,Farmaceutické vedy,zdravotnictvo,52 Farmaceutické vedy
+53,Zdravotnícke odbory vzdelávania na stredných zdravotníckych školách,zdravotnictvo,53 Zdravotnícke odbory vzdelávania na stredných zdravotníckych školách
+56,Nelekárske zdravotnícke vedy,zdravotnictvo,56 Nelekárske zdravotnícke vedy
+61,Filozofické vedy,spol_vedy1,61 Filozofické vedy
+62,Ekonomické vedy,spol_vedy1,62 Ekonomické vedy
+63,"Ekonomika a organizácia, obchod a služby I",spol_vedy1,"63 Ekonomika a organizácia, obchod a služby I"
+64,"Ekonomika a organizácia, obchod a služby II",spol_vedy1,"64 Ekonomika a organizácia, obchod a služby II"
+67,Politické vedy,spol_vedy1,67 Politické vedy
+68,Právne vedy,spol_vedy1,68 Právne vedy
+71,Historické vedy,spol_vedy2,71 Historické vedy
+72,"Publicistika, knihovníctvo a vedecké informácie",spol_vedy2,"72 Publicistika, knihovníctvo a vedecké informácie"
+73,Filologické vedy,spol_vedy2,73 Filologické vedy
+74,Vedy o telesnej kultúre,spol_vedy2,74 Vedy o telesnej kultúre
+75,Pedagogické vedy,spol_vedy2,75 Pedagogické vedy
+76,Učiteľstvo,spol_vedy2,76 Učiteľstvo
+77,Spoločenské a behaviorálne vedy,spol_vedy2,77 Spoločenské a behaviorálne vedy
+78,Učiteľstvo predmetov v kombináciách,spol_vedy2,78 Učiteľstvo predmetov v kombináciách
+79,"Predprimárne, základné a úplné stredné vzdelanie na gymnáziu",spol_vedy2,"79 Predprimárne, základné a úplné stredné vzdelanie na gymnáziu"
+81,Vedy o umení,kultura,81 Vedy o umení
+82,Umenie a umeleckoremeselná tvorba I,kultura,82 Umenie a umeleckoremeselná tvorba I
+85,Umenie a umeleckoremeselná tvorba II,kultura,85 Umenie a umeleckoremeselná tvorba II
+91,Vojenské odbory strojárske a elektrotechnické,vojenske,91 Vojenské odbory strojárske a elektrotechnické
+92,Bezpečnostné služby,vojenske,92 Bezpečnostné služby
+94,Neštátne bezpečnostné služby,vojenske,94 Neštátne bezpečnostné služby
+96,Vojenské odbory,vojenske,96 Vojenské odbory
+97,Vojenské odbory stavebné a dopravné,vojenske,97 Vojenské odbory stavebné a dopravné
+98,Vojenské odbory ekonomické,vojenske,98 Vojenské odbory ekonomické
