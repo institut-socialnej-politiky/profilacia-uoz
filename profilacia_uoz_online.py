@@ -7,6 +7,7 @@ This is a temporary script file.
 
 import pandas as pd
 import streamlit as st
+import pickle
 
 # nacitam si pomocny subor na kategorizaciu okresov
 df_okresy = pd.read_csv("okresy.csv")
