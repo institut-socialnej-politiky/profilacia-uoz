@@ -143,7 +143,8 @@ else :
     
 # prechadzajuce zamestnanie podla NACE
 nace_pred = st.selectbox('V akom odvetví ste pracovali naposledy?', 
-                         ['A+B', 'C', 'D+E+F', 'G', 'J+K+L', 'M', 'R+S+T+U', 'nezname'],
+                         ['A+B', 'C', 'D+E+F', 'G', 'H', 'I', 'J+K+L', 
+                          'M', 'N', 'O', 'P', 'Q', 'R+S+T+U', 'nezname'],
                          help = 'pre viac informácii navštívte http://www.nace.sk/')
 predch_zam_nace = nace_pred
 
