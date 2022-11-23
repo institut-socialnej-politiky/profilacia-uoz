@@ -31,7 +31,7 @@ vek = st.slider("Prosím zvoľte Váš vek", 0, 100, 1)
 
 # okres trvaleho bydliska
 okresy = ('Bratislava I', 'Bratislava II', 'Bratislava III', 'Bratislava IV', 'Bratislava V', 
-          'Malacky ', 'Pezinok', 'Senec', 'Dunajská Streda ', 'Galanta', 'Hlohovec', 'Piešťany', 
+          'Malacky', 'Pezinok', 'Senec', 'Dunajská Streda', 'Galanta', 'Hlohovec', 'Piešťany', 
           'Senica', 'Skalica', 'Trnava', 'Bánovce nad Bebravou', 'Ilava', 'Myjava', 
           'Nové Mesto nad Váhom', 'Partizánske', 'Považská Bystrica', 'Prievidza', 
           'Púchov', 'Trenčín', 'Komárno', 'Levice', 'Nitra ', 'Nové Zámky', 'Šaľa', 
