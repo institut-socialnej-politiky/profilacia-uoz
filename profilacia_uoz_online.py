@@ -6,28 +6,32 @@ This is a temporary script file.
 """
 
 import pandas as pd
+# pickle musi byt ako import, ale nie ako requirement, lebo je obsiahnuty 
+# priamo v tom python backgrounge co bezi na git hube
+import pickle 
+
+# naopak lightgbm musi byt v requirements, ale nie ako import
 import streamlit as st
-import pickle
 
 # nacitam si pomocny subor na kategorizaciu okresov
-df_okresy = pd.read_csv("okresy.csv")
+df_okresy = pd.read_csv("okresy_avg_2021.csv")
 df_odbory = pd.read_csv("odbory.csv")
 # nacitam uoz testovacie data 
 df = pd.read_csv('data_uoz.csv', sep = ',', encoding='utf-8', decimal='.')
 
-st.title("Profilácia UoZ (alfa verzia)")
-st.write("### Prosím vyplnťe dotazník ###")
+st.title("Ukážka profilácie UoZ pomocou strojového učenia")
+st.write("### Zadajte údaje o UoZ ###")
 
 # volby pohlavia
-pohlavia = ('', "muž", "žena")
-pohl = st.selectbox("Pohlavie", pohlavia)
+pohlavia = ("muž", "žena")
+pohl = st.selectbox("Pohlavie:", pohlavia)
 if pohl == 'žena':
     pohl_zena = 1
 else:
     pohl_zena = 0
 
 # volba veku
-vek = st.slider("Prosím zvoľte Váš vek", 0, 100, 1)
+vek = st.slider("Vek", 0, 100, 35)
 
 # okres trvaleho bydliska
 okresy = ('Bratislava I', 'Bratislava II', 'Bratislava III', 'Bratislava IV', 'Bratislava V', 
@@ -44,28 +48,48 @@ okresy = ('Bratislava I', 'Bratislava II', 'Bratislava III', 'Bratislava IV', 'B
           'Stropkov', 'Svidník', 'Vranov nad Topľou', 'Gelnica', 'Košice I', 'Košice II', 
           'Košice III', 'Košice IV', 'Košice - okolie', 'Michalovce', 'Rožňava', 'Sobrance', 
           'Spišská Nová Ves', 'Trebišov')
-trv_byd = st.selectbox("Trvalé bydlisko", okresy)
+trv_byd = st.selectbox("Okres trvalého pobytu:", okresy)
 
 trv_bydlisko = df_okresy.loc[df_okresy['nazov_okresu'] == trv_byd, 'kraj2'].values[0]
 
 # najvysie dosiahnute vzdelanie
-vzdelanie_stupen = ( 'žiadne', 'základoškolské', 'nižsie stredoškolské',  'úplné stredoškolské',  'vysokoškolské')
-naj_vzde = st.selectbox("Najvyššie dosiahnuté vzdelanie", vzdelanie_stupen)
+vzdelanie_stupen = ('Neznáme',
+                    'Neukončené základné vzdelanie', 
+                    'Základné vzdelanie', 
+                    'Nižšie stredné odborné vzdelanie',
+                    'Stredné odborné vzdelanie',  
+                    'Úplné stredné odborné vzdelanie',
+                    'Úplné stredné všeobecné vzdelanie', 
+                    'Vyššie odborné vzdelanie',
+                    'Vysokoškolské vzdelanie prvého stupňa',
+                    'Vysokoškolské vzdelanie druhého stupňa',
+                    'Vysokoškolské vzdelanie tretieho stupňa',
+                    )
+naj_vzde = st.selectbox("Najvyššie dosiahnuté vzdelanie:", vzdelanie_stupen)
 
-if naj_vzde == 'základoškolské':
+stredoskolske_nizke = ('Nižšie stredné odborné vzdelanie', 
+                       'Stredné odborné vzdelanie')
+stredoskolske_uplne = ('Úplné stredné odborné vzdelanie', 
+                       'Úplné stredné všeobecné vzdelanie',
+                       'Vyššie odborné vzdelanie') 
+vysokoskolske = ('Vysokoškolské vzdelanie prvého stupňa', 
+                 'Vysokoškolské vzdelanie druhého stupňa',
+                 'Vysokoškolské vzdelanie tretieho stupňa')
+
+if naj_vzde == 'Základné vzdelanie':
     vzdelanie = 'zakladne'
-elif naj_vzde == 'nižsie stredoškolské':
+elif naj_vzde in stredoskolske_nizke:
     vzdelanie = 'stredne_nizsie'
-elif naj_vzde == 'úplné stredoškolské':
+elif naj_vzde in stredoskolske_uplne:
     vzdelanie = 'stredne_uplne'
-elif naj_vzde == 'vysokoškolské':
+elif naj_vzde in vysokoskolske:
     vzdelanie = 'vysokoskolske'
 else:
     vzdelanie = 'ziadne'
 
 # typ dosiahnuteho vzdelania
 odbory = df_odbory['nazov_kod']
-odbor = st.selectbox("V akom odbore ste dosiahli najvyššie vzdelanie?", odbory)  
+odbor = st.selectbox("Odbor najvyššieho dosiahnutého vzdelania:", odbory)  
 
 skola_odbor = df_odbory.loc[df_odbory['nazov_kod'] == odbor, 'skola_odbor_skupina'].values[0] 
 
@@ -79,7 +103,7 @@ else:
 stavy = ("slobodný, slobodná", "ženatý, vydatá", "rozvedený, rozvedená", "vdovec, vdova", 
          "registrované partnerstvo")
 
-stav = st.selectbox("Aký je Váš rodinný stav?", stavy)
+stav = st.selectbox("Rodinný stav:", stavy)
 
 if stav == "slobodný, slobodná":
     rodinny_stav = "slobodny"
@@ -90,17 +114,17 @@ elif  stav == "rozvedený, rozvedená":
 else:
     rodinny_stav= 'vdovec'
 # vodicak
-vodicak = st.selectbox('Máte vodičský preukaz skupiny A, A1, A2, AM, B alebo B1?', ['áno', 'nie'])
+vodicak = st.selectbox('Vodičský preukaz skupiny A, A1, A2, AM, B alebo B1:', ['áno', 'nie'])
 if vodicak == 'áno':
     vodicak_zakl = 1
 else:
     vodicak_zakl = 0
 
 # uroven Aj
-jazyk_aj = st.selectbox('Na akej úrovni ovládate anglický jazyk?', 
-                        ['neovládam', 'elementárna - A1 alebo A2', 
+jazyk_aj = st.selectbox('Úroveň anglického jazyka:', 
+                        ['žiadna', 'elementárna - A1 alebo A2', 
                          'pokročilá - B1 alebo B2','vysoká - C1 alebo c2 '])
-if jazyk_aj == 'neovládam':
+if jazyk_aj == 'žiadna':
     jazyk_en = 0
 elif jazyk_aj == 'elementárna - A1 alebo A2':
     jazyk_en = .33
@@ -110,10 +134,10 @@ else:
     jazyk_en = 1
 
 # uroven DE
-jazyk_nem = st.selectbox('Na akej úrovni ovládate nemecký jazyk?', 
-                        ['neovládam', 'elementárna - A1 alebo A2', 
+jazyk_nem = st.selectbox('Úroveň nemeckého jazyka:', 
+                        ['žiadna', 'elementárna - A1 alebo A2', 
                          'pokročilá - B1 alebo B2','vysoká - C1 alebo c2 '])
-if jazyk_nem == 'neovládam':
+if jazyk_nem == 'žiadna':
     jazyk_de = 0
 elif jazyk_nem == 'elementárna - A1 alebo A2':
     jazyk_de = .33
@@ -123,10 +147,10 @@ else:
     jazyk_de = 1
 
 # mesiac zaradenia do evidencie
-mes_zaradenia = st.slider('V ktorom mesiaci ste zaradený do evidencie UoZ?', 1, 12, 1)
+mes_zaradenia = st.slider('Mesiac zaradenia do evidencie UoZ:', 1, 12, 1)
 
 # pred zaradenim do evidencie
-postavenie_pred = st.selectbox('Aké bolo vaše postavenie bezprostredne pred zaradením do evidencie UoZ?', 
+postavenie_pred = st.selectbox('Postavenie bezprostredne pred zaradením do evidencie UoZ:', 
                     ['pracujúci', 'študent', 'opatrujúci dieťa alebo blízku osobu', 
                      'inak poistená osoba (poberateľ dôchodku, práceneschopný...)', 'nezamestnaný'])
 
@@ -142,59 +166,151 @@ else :
     dov_zaradenia = 'nezamestnani'
     
 # prechadzajuce zamestnanie podla NACE
-nace_pred = st.selectbox('V akom odvetví ste pracovali naposledy?', 
-                         ['A+B', 'C', 'D+E+F', 'G', 'H', 'I', 'J+K+L', 
-                          'M', 'N', 'O', 'P', 'Q', 'R+S+T+U', 'nezname'],
+nace_pred = st.selectbox('V akom odvetví pracoval UoZ naposledy?', 
+                         ['A – Poľnohospodárstvo, lesníctvo a rybolov', 
+                          'B – Ťažba a dobývanie', 
+                          'C – Priemyselná výroba',
+                          'D – Dodávka elektriny, plynu, pary a studeného vzduchu',
+                          'E – Dodávka vody, čistenie a odvod odpadových vôd, odpady a služby odstraňovania odpadov',
+                          'F – Stavebníctvo',
+                          'G – Veľkoobchod a maloobchod; oprava motorových vozidiel a motocyklov',
+                          'H – Doprava a skladovanie',
+                          'I – Ubytovacie a stravovacie služby',
+                          'J – Informácie a komunikácia',
+                          'K – Finančné a poisťovacie činnosti',
+                          'L – Činnosti v oblasti nehnuteľností',
+                          'M – Odborné, vedecké a technické činnosti',
+                          'N – Administratívne a podporné služby',
+                          'O – Verejná správa a obrana; povinné sociálne zabezpečenie',
+                          'P – Vzdelávanie',
+                          'Q – Zdravotníctvo a sociálna pomoc',
+                          'R – Umenie, zábava a rekreácia',
+                          'S – Ostatné činnosti',
+                          'T – Činnosti domácností ako zamestnávateľov',
+                          'U – Činnosti extrateritoriálnych organizácií a združení',
+                          'Neznáme'],
                          help = 'pre viac informácii navštívte http://www.nace.sk/')
-predch_zam_nace = nace_pred
+odvetvia = ('A+B', 'C', 'D+E+F', 'G', 'H', 'I', 'J+K+L', 
+            'M', 'N', 'O', 'P', 'Q', 'R+S+T+U', 'nezname')
+
+# vela skaredych podmienok, aby som to prerobil na vstupy
+if 'A –' or 'B –' in nace_pred:
+    predch_zam_nace = 'A+B'
+
+if 'C –' in nace_pred:
+    predch_zam_nace = 'C'
+
+if 'D –' or 'E –' or 'F –' in nace_pred:
+    predch_zam_nace = 'D+E+F'
+
+if 'G –' in nace_pred:
+    predch_zam_nace = 'G'
+
+if 'H –' in nace_pred:
+    predch_zam_nace = 'H'
+    
+if 'I –' in nace_pred:
+    predch_zam_nace = 'I'
+
+if 'J –' or 'K –' or 'L –' in nace_pred:
+    predch_zam_nace = 'J+K+L'
+
+if 'M –' in nace_pred:
+    predch_zam_nace = 'M'
+    
+if 'N –' in nace_pred:
+    predch_zam_nace = 'N'
+
+if 'O –' in nace_pred:
+    predch_zam_nace = 'O'
+
+if 'P –' in nace_pred:
+    predch_zam_nace = 'P'
+
+if 'Q –' in nace_pred:
+    predch_zam_nace = 'Q'
+    
+if 'R –' or 'S –' or 'T –' or 'U –' in nace_pred:
+    predch_zam_nace = 'R+S+T+U'
+    
+if nace_pred == 'Neznáme':
+    predch_zam_nace = 'nezname'
 
 # prechadchadzajuce zamestnanie podla ISCO
-isco_pr = st.selectbox('Akú profesiu ste vykonávali naposledy?', 
-                         ['0 ozbrojené sily',
-                          '1 zákonodarcovia',
-                          '2 špecialisti',
-                          '3 odborní pracovníci',
-                          '4 administratívni pracovníci',
-                          '5 služby a obchod',
-                          '6 poľnohospodárstvo',
-                          '7 remeselníci',
-                          '8 operátori',
-                          '9 nekvalifikovaní pracovníci',
-                          'neznáme'])
+isco_pr = st.selectbox('Naposledy vykonávaná profesia:', 
+                         ['0 Ozbrojené sily',
+                          '1 Zákonodarcovia',
+                          '2 Špecialisti',
+                          '3 Odborní pracovníci',
+                          '4 Administratívni pracovníci',
+                          '5 Služby a obchod',
+                          '6 Poľnohospodári',
+                          '7 Remeselníci',
+                          '8 Operátori',
+                          '9 Nekvalifikovaní pracovníci',
+                          'Neznáme'])
 
-if isco_pr == '0 ozbrojené sily':
+if isco_pr == '0 Ozbrojené sily':
     isco_pred = '0_ozbrojene_sily'
-elif isco_pr == '1 zákonodarcovia':
+elif isco_pr == '1 Zákonodarcovia':
     isco_pred = '1_zakonodarcovia'
-elif isco_pr == '2 špecialisti':
+elif isco_pr == '2 Špecialisti':
     isco_pred = '2_specialisti'
-elif isco_pr == '3 odborní pracovníci':
+elif isco_pr == '3 Odborní pracovníci':
     isco_pred = '3_odb_pracovnici'
-elif isco_pr == '4 administratívni pracovníci':
+elif isco_pr == '4 Administratívni pracovníci':
     isco_pred = '4_adm_pracovnici'
-elif isco_pr == '5 služby a obchod':
+elif isco_pr == '5 Služby a obchod':
     isco_pred = '5_sluzby_obchod'
-elif isco_pr == '6 poľnohospodárstvo':
+elif isco_pr == '6 Poľnohospodári':
     isco_pred = '6_polnohosp'
-elif isco_pr == '7 remeselníci':
+elif isco_pr == '7 Remeselníci':
     isco_pred = '7_remeselnici'
-elif isco_pr == '8 operátori':
+elif isco_pr == '8 Pperátori':
     isco_pred = '8_operatori'
-elif isco_pr == '9 nekvalifikovaní pracovníci':
+elif isco_pr == '9 Nekvalifikovaní pracovníci':
     isco_pred = '9_nekval_prac'
 else:
     iscopred ='nezname'
 
 predch_zam_isco = isco_pred
 
+isco_pr_hlzam = st.selectbox('Záujem pracovať v rovnakej ako poslednej profesii:', 
+                         ['Áno',
+                          'Nie'])
+
+# skarede if struktury na definovanie hlzam kodov
+if isco_pr_hlzam == 'Áno' and isco_pred == '5_sluzby_obchod':
+    hlzam_sp_isco_5 = 0.105
+    hlzam_sp_isco_9 = 0
+    hlzam_bp_isco_2 = 0
+    hlzam_bp_isco_4 = 0
+    hlzam_bp_isco_8 = 0
+    hlzam_bp_isco_9 = 0
+elif isco_pr_hlzam == 'Áno' and isco_pred == '9_nekval_prac':
+    hlzam_sp_isco_5 = 0
+    hlzam_sp_isco_9 = 0.086
+    hlzam_bp_isco_2 = 0
+    hlzam_bp_isco_4 = 0
+    hlzam_bp_isco_8 = 0
+    hlzam_bp_isco_9 = 0
+else:
+    hlzam_sp_isco_5 = 0
+    hlzam_sp_isco_9 = 0
+    hlzam_bp_isco_2 = 0
+    hlzam_bp_isco_4 = 0
+    hlzam_bp_isco_8 = 0
+    hlzam_bp_isco_9 = 0
+    
+
 # pocet evidovanie ako UoZ za posl 24 mesiacov
-predch_ev_pocet = st.slider('Koľkokrát ste boli evidovaný ako UoZ za posledných 24 mesiacov?', 0, 10, 1)
+predch_ev_pocet = st.slider('Počet evidencii ako UoZ za posledných 24 mesiacov:', 0, 10, 0)
 
 # pocet mesiacov evidovani ako UoZ za posl 24 mesiacov
-predch_ev_roky = st.slider('Koľko z posledných 24 mesiacov ste boli evidovaný ako UoZ?', 0, 24, 1)
+predch_ev_roky = st.slider('Počet mesiacov evidovaný ako UoZ za posledných 24 mesiacov:', 0, 24, 0)
 
 # bol niekedy v minulosti dobrovolne nezamestnany
-dob_nez = st.selectbox('Boli ste v minulosti dobrovoľne nezamestnaný?', ['áno', 'nie'])
+dob_nez = st.selectbox('V minulosti dobrovoľne nezamestnaný:', ['áno', 'nie'])
 
 if dob_nez == 'áno':
     dobr_nezam = 1
@@ -202,7 +318,7 @@ else:
     dobr_nezam = 0
 
 # ci ma zaujem ist pracovat do zahranicia
-zahranicie = st.selectbox('Plánujete odísť do zhraničia?', ['áno', 'nie'])
+zahranicie = st.selectbox('Plány odísť do zahraničia:', ['áno', 'nie'])
 
 if zahranicie == 'áno':
     umysel_do_zahr = 1
@@ -210,28 +326,28 @@ else:
     umysel_do_zahr = 0
     
 # pocet zaujmov
-zaujmy = st.multiselect('O ktoré z nasledujúcich by ste mali v budúcnosti záujem?', 
+zaujmy = st.multiselect('UoZ by mal v budúcnosti záujem:', 
                         ['pracovať aj mimo územia SR', 'pracovať aj na skrátený úväzok', 
                         'vykonávať SZČ', 'dochádzať do zamestnania', 'o vzdelávanie', 
                         'vykonávať absolventskú prax', 'ďalej študovať dennou formou'])
 pocet_zaujmov = len(zaujmy)
     
 # pocet znevyhodneni a z toho potrebne binarne premenne
-znevyhodnenia = st.multiselect('Ktoré z nasledujúcich znevýhodnení pre Vás platia?', 
-                               ['mám menej ako 26 rokov a ukončil som štúdium pred menej ako 2 rokmi a nemal som odvtedy pravidelne platené zamestnanie',
-                                'najmenej 12 predchádzajúcich mesiacov som nemal pravidelne platené zamestnanie',
-                                'som štátny príslušník tretej krajiny, ktorému bol udelený azyl',
-                                'žijem ako osamelá dospelá osoba s jednou alebo viacerými osobami odkázanými na moju starostlivosť',
-                                'mám zdravotné postihnutie'], help = 'môžete zvoliť viacero možností')
+znevyhodnenia = st.multiselect('Znevýhodnenia:', 
+                               ['má menej ako 26 rokov a ukončil štúdium pred menej ako 2 rokmi a nemal odvtedy pravidelne platené zamestnanie',
+                                'najmenej 12 predchádzajúcich mesiacov nemal pravidelne platené zamestnanie',
+                                'je štátny príslušník tretej krajiny, ktorému bol udelený azyl',
+                                'žije ako osamelá dospelá osoba s jednou alebo viacerými osobami odkázanými na jeho/jej starostlivosť',
+                                'má zdravotné postihnutie'], help = 'môžnosť zvoliť viacero možností')
 
 # znevyhodneny bez pravidelneho zamestnania
-if 'najmenej 12 predchádzajúcich mesiacov som nemal pravidelne platené zamestnanie' in znevyhodnenia:
+if 'najmenej 12 predchádzajúcich mesiacov nemal pravidelne platené zamestnanie' in znevyhodnenia:
     znevyh_bez_pravid_zam = 1
 else:
     znevyh_bez_pravid_zam = 0
 
 # znevyhodneny absolvent
-if 'mám menej ako 26 rokov a ukončil som štúdium pred menej ako 2 rokmi a nemal som odvtedy pravidelne platené zamestnanie' in znevyhodnenia:
+if 'má menej ako 26 rokov a ukončil štúdium pred menej ako 2 rokmi a nemal odvtedy pravidelne platené zamestnanie' in znevyhodnenia:
     znevyh_absolvent = 1
 else:
     znevyh_absolvent = 0
@@ -249,10 +365,10 @@ if vek >= 50:
     znevyh_pocet = znevyh_pocet + 1
 
 # dlzka praxe v rokoch
-dobaprax = st.slider('Koľko rokov máte prax na trhu práce?', 0, 70, 1)
+dobaprax = st.slider('Prax UoZ na trhu práce v rokoch:', 0, 70, 10)
 
 # poberanie davky v hmotnej nudzi
-davka_v_nudzi = st.selectbox('Poberáte dávku v hmotnej núdzi?', ['áno', 'nie'])
+davka_v_nudzi = st.selectbox('Poberá UoZ dávku v hmotnej núdzi?', ['nie', 'áno'])
 
 if davka_v_nudzi == 'áno':
     dhn = 1
@@ -260,16 +376,8 @@ else:
     dhn = 0
 
 # dlzka aktivnych opatreni na trhu prace
-aotp_cas_za_2r = st.slider('Koľko z predchádzajúcich 24 mesiacov ste strávili aktívnymi opatreniami na trhu práce?',
-                           0, 24, 1)
-
-# zle veci hlzam su zatial defautlne zvolene ako priemery
-hlzam_sp_isco_5 = 0.105
-hlzam_sp_isco_9 = 0.086
-hlzam_bp_isco_2 = 0.085
-hlzam_bp_isco_4 = 0.073
-hlzam_bp_isco_8 = 0.437
-hlzam_bp_isco_9 = 0.071
+aotp_cas_za_2r = st.slider('Koľko z predchádzajúcich 24 mesiacov strávil UoZ aktívnymi opatreniami na trhu práce?',
+                           0, 24, 0)
 
 # nezamestnanost 
 nezam_celk = df_okresy.loc[df_okresy['nazov_okresu'] == trv_byd, 'nezam_celk'].values[0]
@@ -279,20 +387,20 @@ nezam_odch = df_okresy.loc[df_okresy['nazov_okresu'] == trv_byd, 'nezam_odch'].v
 vpm = df_okresy.loc[df_okresy['nazov_okresu'] == trv_byd, 'vpm'].values[0]
 
 # priemerny hruby vymeriavaci zaklad
-vz_zec = st.slider('Aká bola Vaša priemerná hrubá mzda (v eurách) za posledné dva roky?', 0, 2000, 1, 
-                   help = 'v prípade, že Vaša hrubá mzda bola viac ako 2000 eur, zvoľte 2000')
+vz_zec = st.slider('Priemerná hrubá mzda (v eurách) za posledné dva roky:', 0, 2000, 0, 
+                   help = 'v prípade, že hrubá mzda bola viac ako 2000 eur, zvoľte 2000')
 
 # priemerny prijem z dohod
-vz_doh = st.slider('Aký bol Váš hrubý priemerný mesačný príjem (v eurách) z práce na dohody za posledné dva roky?', 0, 2000, 1)
+vz_doh = st.slider('Priemerný mesačný príjem (v eurách) z práce na dohody za posledné dva roky:', 0, 2000, 0)
 
 # dlzka zamestnanosti v mesiacoch 2 roky pred zaredenim
-dlzka_zec = st.slider('Koľko z posledných 24 mesiacov ste boli zamestnaný?', 0, 24, 1)
+dlzka_zec = st.slider('Koľko z posledných 24 mesiacov bol UoZ zamestnaný?', 0, 24, 0)
 
 # dlzka dohody v mesiacoch 2 roky pred zaredenim
-dlzka_doh = st.slider('Koľko z posledných 24 mesiacov ste boli zamestnaný ako dohodár?', 0, 24, 1)
+dlzka_doh = st.slider('Koľko z posledných 24 mesiacov bol UoZ zamestnaný ako dohodár?', 0, 24, 0)
 
 # dlzka meterskej v mesiacoch 2 roky pred zaredenim
-dlzka_dieta = st.slider('Koľko mesiacov ste strávili na materskej dovolenke alebo starostlivosťou o dieťa za 2 roky pred aktuálnym zaradením?', 0, 24, 1)
+dlzka_dieta = st.slider('Koľko z posledných 24 mesiacov strávil UoZ na materskej alebo rodičovskej dovolenke?', 0, 24, 0)
   
 
 # kontrola premennych, vytvori button ktory ked sa stlaci, tak to bude OK
@@ -340,7 +448,7 @@ dlzka_dieta = st.slider('Koľko mesiacov ste strávili na materskej dovolenke al
 #     st.subheader("39 Dlzka zamestnanosti na dododu v mesiacoch: " + str(dlzka_doh))
 #     st.subheader("40 Dlzka materskej pred zaredenim v mesiacoch: " + str(dlzka_dieta))
     
-ok2 = st.button("Stlačte ma pre výpočet")
+ok2 = st.button("Spustiť profiláciu")
 
 #nacitam svoje premenne
 if ok2:
@@ -426,6 +534,8 @@ if ok2:
 
     # predict probabilities on test set
     probs = lgbcl.predict_proba(X)[:,1]
-    st.subheader("Pravdepodobnosť, že budete po 1 roku nezamestnaný je: " + str('{:.2f}'.format(probs[-1]*100)) + " %")
+    st.subheader("Pravdepodobnosť, že UoZ s definovanými charakteristikami bude po 1 roku nezamestnaný je: " + str('{:.2f}'.format(probs[-1]*100)) + " %")
+
+
 
 
