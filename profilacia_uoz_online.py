@@ -562,7 +562,7 @@ if ok2:
 
     # predict probabilities on test set
     probs = lgbcl.predict_proba(X)[:,1]
-    st.subheader("Pravdepodobnosť, že UoZ s definovanými charakteristikami bude po 1 roku nezamestnaný je: " + str('{:.2f}'.format(probs[-1]*100)) + " %")
+    st.subheader("Pravdepodobnosť, že UoZ s definovanými charakteristikami sa po 1 roku neuplatní na trhu práce je: " + str('{:.2f}'.format(probs[-1]*100)) + " %")
 
 
 
