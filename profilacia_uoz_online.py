@@ -13,6 +13,14 @@ import pickle
 # naopak lightgbm musi byt v requirements, ale nie ako import
 import streamlit as st
 
+# pridam obrazok
+from PIL import Image
+
+# otvorenie
+image = Image.open('isp_pic2.PNG')
+
+st.image(image)
+
 # nacitam si pomocny subor na kategorizaciu okresov
 df_okresy = pd.read_csv("okresy_avg_2021.csv")
 df_odbory = pd.read_csv("odbory.csv")
