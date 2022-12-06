@@ -377,7 +377,7 @@ else:
 zaujmy = st.multiselect('UoZ by mal v budúcnosti záujem:', 
                         ['pracovať aj mimo územia SR', 'pracovať aj na skrátený úväzok', 
                         'vykonávať SZČ', 'dochádzať do zamestnania', 'o vzdelávanie', 
-                        'vykonávať absolventskú prax', 'ďalej študovať dennou formou'])
+                        'vykonávať absolventskú prax', 'ďalej študovať dennou formou'], help = 'môžnosť zvoliť viacero možností alebo žiadnu')
 pocet_zaujmov = len(zaujmy)
     
 # pocet znevyhodneni a z toho potrebne binarne premenne
@@ -386,7 +386,7 @@ znevyhodnenia = st.multiselect('Znevýhodnenia:',
                                 'najmenej 12 predchádzajúcich mesiacov nemal pravidelne platené zamestnanie',
                                 'je štátny príslušník tretej krajiny, ktorému bol udelený azyl',
                                 'žije ako osamelá dospelá osoba s jednou alebo viacerými osobami odkázanými na jeho/jej starostlivosť',
-                                'má zdravotné postihnutie'], help = 'môžnosť zvoliť viacero možností')
+                                'má zdravotné postihnutie'], help = 'môžnosť zvoliť viacero možností alebo žiadnu')
 
 # znevyhodneny bez pravidelneho zamestnania
 if 'najmenej 12 predchádzajúcich mesiacov nemal pravidelne platené zamestnanie' in znevyhodnenia:
