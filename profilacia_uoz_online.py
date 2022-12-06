@@ -28,7 +28,13 @@ df_odbory = pd.read_csv("odbory.csv")
 df = pd.read_csv('data_uoz.csv', sep = ',', encoding='utf-8', decimal='.')
 
 st.title("Ukážka profilácie UoZ pomocou strojového učenia")
-st.write("Inštitút sociálnej politiky MPSVR SR Vám prináša alfa-verziu online nástroja umožňujúceho profiláciu UoZ. Tento nástroj vyhodnocuje mieru rizika dlhodobého zotrvania UoZ mimo trhu práce. Do online dotazníka, prosím, zadajte charakteristiky fiktívneho uchádzača. Nebojte sa experimentovať s charakteristikami! Odskúšaním rôznych kombinácií charakteristík nám pomáhate v zlepšovaní tohto nástroja. Po kliknutí na tlačidlo „Spustiť profiláciu“ sa Vám zjaví odhad pravdepodobnosti, že si Vami opísaný fiktívny UoZ nenájde uplatnenie na trhu práce do 12 mesiacov od registrácie na úrade práce.")
+st.write("Inštitút sociálnej politiky MPSVR SR Vám prináša alfa-verziu online nástroja umožňujúceho profiláciu UoZ. "
+         "Tento nástroj vyhodnocuje mieru rizika dlhodobého zotrvania UoZ mimo trhu práce. "
+         "Do online dotazníka, prosím, zadajte charakteristiky fiktívneho uchádzača. "
+         "Nebojte sa experimentovať s charakteristikami! "
+         "Odskúšaním rôznych kombinácií charakteristík nám pomáhate v zlepšovaní tohto nástroja. "
+         "Po kliknutí na tlačidlo „Spustiť profiláciu“ sa Vám zjaví odhad pravdepodobnosti, "
+         "že si Vami opísaný fiktívny UoZ nenájde uplatnenie na trhu práce do 12 mesiacov od registrácie na úrade práce.")
 
 st.write("Ďakujeme Vám a tešíme sa na Vaše podnety.") 
          
