@@ -162,6 +162,6 @@
 
 [theme]
 base="light"
-primaryColor="#f095b1"
-backgroundColor="#dcdcdc"
-secondaryBackgroundColor="#bcbcbc"
+primaryColor="#b7194a"
+secondaryBackgroundColor="#c4dbf0"
+textColor="#003399"
