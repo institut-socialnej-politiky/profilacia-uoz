@@ -34,6 +34,8 @@ st.write("Ďakujeme Vám a tešíme sa na Vaše podnety.")
          
 st.write("Váš Inštitút sociálnej politiky")
 
+st.write("----------------------------------------------------------")
+
 # volby pohlavia
 pohlavia = ("Muž", "Žena")
 pohl = st.selectbox("Pohlavie:", pohlavia)
