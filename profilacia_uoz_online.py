@@ -58,7 +58,7 @@ okresy = ('Bratislava I', 'Bratislava II', 'Bratislava III', 'Bratislava IV', 'B
           'Malacky', 'Pezinok', 'Senec', 'Dunajská Streda', 'Galanta', 'Hlohovec', 'Piešťany', 
           'Senica', 'Skalica', 'Trnava', 'Bánovce nad Bebravou', 'Ilava', 'Myjava', 
           'Nové Mesto nad Váhom', 'Partizánske', 'Považská Bystrica', 'Prievidza', 
-          'Púchov', 'Trenčín', 'Komárno', 'Levice', 'Nitra ', 'Nové Zámky', 'Šaľa', 
+          'Púchov', 'Trenčín', 'Komárno', 'Levice', 'Nitra', 'Nové Zámky', 'Šaľa', 
           'Topoľčany', 'Zlaté Moravce', 'Bytča', 'Čadca', 'Dolný Kubín', 'Kysucké Nové Mesto',
           'Liptovský Mikuláš', 'Martin', 'Námestovo', 'Ružomberok', 'Turčianske Teplice',
           'Tvrdošín', 'Žilina', 'Banská Bystrica', 'Banská Štiavnica', 'Brezno', 'Detva',
