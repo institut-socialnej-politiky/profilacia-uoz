@@ -51,7 +51,7 @@ else:
     pohl_zena = 0
 
 # volba veku
-vek = st.slider("Vek", 0, 100, 35)
+vek = st.slider("Vek", 15, 70, 35)
 
 # okres trvaleho bydliska
 okresy = ('Bratislava I', 'Bratislava II', 'Bratislava III', 'Bratislava IV', 'Bratislava V', 
